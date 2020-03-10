@@ -1,6 +1,5 @@
 #include "sketchParam.h"
 
-
 void setup() {
   Serial.begin(115200); 
   Serial.println("\n  Wake up!\n");
@@ -22,19 +21,19 @@ void setup() {
     lampR = (pwmIntervals * log10(2))/(log10(pow(2,pwmresolution)));
   #endif
   
-  //blinkLed();
-    //ON
-  lampVal=20;
-  int brightness = pow (2, (lampVal / lampR)) - 1;
-  ledcWrite(lampChannel, brightness);
-
-  //TakePicture
+//  //blinkLed();
+//    //ON
+//  lampVal=100;
+//  int brightness = pow (2, (lampVal / lampR)) - 1;
+//  ledcWrite(lampChannel, brightness);
+//
+   //TakePicture
   take_send_request(); //tak picture and send to server
- 
-  //OFF
-  lampVal=-1;
-  brightness = pow (2, (lampVal / lampR)) - 1;
-  ledcWrite(lampChannel, brightness);
+// 
+//  //OFF
+//  lampVal=-1;
+//  brightness = pow (2, (lampVal / lampR)) - 1;
+//  ledcWrite(lampChannel, brightness);
   
   Serial.println("Going to sleep for " + String(TIME_TO_SLEEP)+ " sec");
   delay(500);
@@ -109,8 +108,14 @@ static esp_err_t take_send_request()
   config_client.method = HTTP_METHOD_POST;
 
   http_client = esp_http_client_init(&config_client);
-
-  esp_http_client_set_post_field(http_client, (const char *)bootCount, bootCount); 
+  
+  //const char *post_data = "field1=value1&field2=value2"; //sample post
+ 
+  char bootBuffer[8];
+  const char *post_data = itoa( bootCount, bootBuffer, 10 );
+  esp_http_client_set_post_field(http_client, post_data, strlen(post_data));
+  
+  //esp_http_client_set_post_field(http_client, (const char *)bootCount->buf, bootCount->len); 
 
   esp_http_client_set_header(http_client, "Content-Type", "text/plain"); 
 

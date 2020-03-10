@@ -24,7 +24,7 @@ RTC_DATA_ATTR int bootCount=0;
 const char *post_url = "https://managemeters.000webhostapp.com/wakeUps.php?"; // POSTED boot amount
 
 #define uS_TO_S_FACTOR 1000000  /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP 60          /* Time ESP32 will go to sleep (in seconds) - 86400s=1day */
+#define TIME_TO_SLEEP 30          /* Time ESP32 will go to sleep (in seconds) - 86400s=1day */
 
 
 // Status and illumination LED's
